@@ -1,12 +1,29 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import * as THREE from 'three'
 
-document.querySelector('#app').innerHTML = `
-  <div>
-  
-  </div>
-`
+const scene = new THREE.Scene();
 
-setupCounter(document.querySelector('#counter'))
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+const renderer = new Three.WebGLRenderer({
+  canvas: document.querySelector('#bg'),
+})
+
+renderer.setPixelRatio( window.devicePixelRatio);
+renderer.setSize( window.innerWidth, window.innerHeight);
+camera.position.setZ(20);
+
+renderer.render( scene, camera);
+
+const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+const material = new Three.MeshBasicMaterial({color: 0xFF6347, wireframe: true})
+const torus = new Three.Mesh(geometry, material);
+
+scene.add(torus)
+
+function animate() {
+  requestAnimationFrame( animate );
+  renderer.render(scene, camera);
+}
+
+animate()
